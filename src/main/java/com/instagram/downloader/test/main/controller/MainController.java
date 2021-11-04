@@ -12,10 +12,5 @@ public class MainController {
         return "main/main";
     }
 
-    @GetMapping("/test")
-    public String mainIndex2() throws Exception{
-        String url = "https://www.instagram.com/sooolog/channel/?__a=1";
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class);
-    }
+
 }
