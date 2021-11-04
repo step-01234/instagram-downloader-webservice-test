@@ -2,6 +2,7 @@ package com.instagram.downloader.test.main.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class MainController {
@@ -11,4 +12,10 @@ public class MainController {
         return "main/main";
     }
 
+    @GetMapping("/test")
+    public String mainIndex2() throws Exception{
+        String url = "https://www.instagram.com/sooolog/channel/?__a=1";
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, String.class);
+    }
 }
