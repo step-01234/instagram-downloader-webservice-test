@@ -2,6 +2,10 @@ package com.instagram.downloader.test.main.controller;
 
 import com.instagram.downloader.test.main.service.MainService;
 import lombok.RequiredArgsConstructor;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class MainRestController {
 
+    private WebDriver driver;
     private final MainService mainService;
 
     @PostMapping("/userNameApi")
@@ -26,22 +33,21 @@ public class MainRestController {
         return mainService.profileDl(userName);
     }
 
-    @GetMapping("/userIdApi2")
-    public String userId2(@RequestParam String userName) throws Exception{
-        return mainService.profileDl(userName);
-    }
+    @GetMapping("/crawlingInsta")
+    public void mainIndex3() throws Exception{
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\rlaqu\\Downloads\\chromedriver_win32\\chromedriver.exe");
+        driver = new ChromeDriver();
 
-    @GetMapping("/userIdApi3")
-    public String userId3(@RequestParam String userName) throws Exception{
-        String url = "https://www.instagram.com/" + userName + "/channel/?__a=1";
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class);
-    }
+        driver.get("https://instagram.com/sooolog/?__a=1");
 
-    @GetMapping("/userIdApi4")
-    public String userId4() throws Exception{
-        String url = "https://www.instagram.com/sooolog/channel/?__a=1";
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class);
+        List<WebElement> posts = driver.findElements(By.tagName("body"));
+
+        for(WebElement e : posts){
+            System.out.println(e.getText());
+            System.out.println("1");
+        }
+
+        driver.quit();
+
     }
 }
